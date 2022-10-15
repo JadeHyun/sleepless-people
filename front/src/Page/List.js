@@ -3,25 +3,30 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { RiRoadMapLine } from "react-icons/ri";
+import ListView from "./list/ListView";
 
 import Header from "./Header";
 import { ReactComponent as Star } from "../asset/star.svg";
+import { GetList } from "./list/GetList";
 
 const List = ({ selectData }) => {
   const location = useLocation();
   const [storeData, setStoreData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_URL_API}/v1/shop?page=1&size=10&cityId=${selectData.filter.localId}&areaId=${selectData.filter.areaId}&category=${location.state.categoryInfo}&sort=1`
-      )
-      .then((filterData) => {
-        console.log(filterData);
-        setStoreData(filterData.data.data);
-      })
-      .catch((err) => console.log(err));
-  }, [location, selectData]);
+    // axios
+    //   .get(
+    //     `${process.env.REACT_APP_URL_API}/v1/shop?page=1&size=10&cityId=${selectData.filter.localId}&areaId=${selectData.filter.areaId}&category=${location.state.categoryInfo}&sort=1`
+    //   )
+    //   .then((filterData) => {
+    //     console.log(filterData);
+    //     setStoreData(filterData.data.data);
+    //   })
+    //   .catch((err) => console.log(err));
+    setStoreData(GetList(selectData, location));
+  }, [selectData, location]);
+
+  console.log(storeData);
 
   if (storeData == null) {
     return <div>응답 요청이 없습니다 !</div>;
